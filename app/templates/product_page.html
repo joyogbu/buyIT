@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+	<div id="product_container">
+		<div class="product_display_div">
+			<div class="product_display image_display_div">
+				<img src="#" />
+			</div>
+			<div class="product_display text_display_div">
+				<h4>{{ prod_name }}</h4>
+				<span>Price: </span><span>N</span><span>{{ get_prod.product_price }}</span><br><br>
+				<button id="buy_now"><a href="#">BUY NOW</button><br><br>
+				<button id="add_to_cart"><a href="#">ADD TO CART</a></button>
+			</div>
+		</div>
+		<div class="product_spec">
+			<h4> Product details</h4>
+			<p>{{ get_prod.product_desc }}</p>
+		</div>
+		<div class="related_products">
+.			<h4>Related products</h4>
+		</div>
+	</div>
+{% endblock %}

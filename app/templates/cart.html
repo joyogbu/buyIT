@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+	<div id="cart_container">
+		<h3>Your shopping cart is empty</h3>
+		<h4>Have an account? Sign in to see your items</h4>
+		<button class="cart_page_btns _one"><a href="{{ url_for('index') }}">Start shopping</a></button>
+		<button class="cart_page_btns _two"><a href="{{ url_for('sign_in') }}">Sign In</a></button>
+	</div>
+	<br><br>
+{% endblock %}

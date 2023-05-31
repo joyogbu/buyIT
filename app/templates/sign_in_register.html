@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<h3>Welcome!</h3>
+	<p>Sign in or Register</p>
+	<div class="form_container">
+		{% if request.args.get('error') %}
+			<p id="form_error">{{ request.args.get('error') }}</p>
+		{% endif %}
+		<form id="sign_in_form" method="POST" action="{{ url_for('sign_in', name='signin') }}">
+			<p>Already have an account?</p>
+			<br>
+			<input type="text" placeholder="Enter username..." name="username" ></input><br><br>
+			<input type="password" placeholder="Enter password..." name="pass" ></input><br><br>
+			<button type="submit" class="form_submit_btn">Send</button>
+			<br><p id="feedback_msg"><i>{{ message }}</i></p>
+		</form>
+		<p>Don't have an account yet?</p>
+		<p id='sign_up_toggle'>Click <button id="sign_up"><i>Sign Up</i></button> to register</p>
+		<form id="sign_up_form" method="POST" action="{{ url_for('sign_in', name='signup') }}">
+			<p>Create an account</p>
+			<input type="text" placeholder="Enter first and last name" name="fullname"></input><br><br>
+			<input type="text" placeholder="Mobile number or Email" name="mobile_or_email"></input><br><br>
+			<input type="password" placeholder="Create a password" name="password"></input><br><br>
+			<button type="submir" class="form_submit_btn">Send</button><br>
+			<p>Already have an account?</p>
+			<p id='sign_in_toggle'>Click <button id="sign_in"><i>Sign in</i></button> to sign in</p>
+		</form>
+	</div>
+	<br><br>
+{% endblock %}

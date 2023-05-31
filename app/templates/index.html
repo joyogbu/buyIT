@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<div id="container">
+		<section id="filters">
+			<div class="product_display">
+				<h2>Explore Products Categories</h2>
+				{% for prod in prods %}
+				<div class="product_div">
+					<div class="product_image"><img src="" /></div>
+					<div class="product_div_text"><span class="product_text"><a href="{{ url_for('get_product', name=prod.product_name) }}">{{ prod.product_name }}</a></span><br>
+						<span class="currency">N</span><span class="product_price">{{ prod.product_price }}</span></div>
+				</div>
+				{% endfor %}
+			</div>
+		</section>
+		<section class ="filters">
+			<div class="daily_deals">
+				<h2>Daily deals</h2>
+			</div>
+		</section>
+	</div>
+{% endblock %}

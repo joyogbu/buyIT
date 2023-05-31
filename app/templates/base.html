@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>buyit</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	<script src="../static/scripts/myscript.js"></script>
+        <link rel="stylesheet" type="text/css" href="../static/styles/mystyle.css" />
+</head>
+<body>
+        <header>
+                <div id="header_div">
+                        <div class="header_boxes" id="logo_box">
+                                <span id="logo1">buyIT</span>
+                                <span id="logo2"><b><i>.COM</i></b></span>
+                </div>
+                        <div id="signin" class="header_boxes box2">
+				<a href="{{ url_for('sign_in') }}">Sign In or Register</a>
+                        </div>
+			<div class="header_boxes users">
+				{% if request.args.get('user_name') %}
+					<span class="users">Hello,</span>
+                                        <span class="users">{{ request.args.get('user_name') }}</span>
+                                {% endif %}
+			</div>
+			<div id ="cart" class="header_boxes box2"><a href="{{ url_for('cart_page') }}">Cart</a></div>
+                        <br><br>
+                </div>
+                <div class="menu_bar" style="background-color:none;">
+                        <div id="menu_div" class="menu_bar_divs">
+                                <ul id="menu_bar_list">
+                                        <li>Menu</li>
+					<li><a href="{{ url_for('index') }}">Home</a></li>
+                                        <li>Customer service</li>
+                                </ul>
+                        </div>
+                        <br>
+                        <div id ="search" class="menu_bar_divs">
+                                <input type ="text" placeholder="search product category" id="search_txt" class="search_div"></input>
+                                <button type="submit" id="search_bttn" class="search_div">Search</button>
+                        </div>
+
+                </div>
+        </header>
+	{% block content %}{% endblock %}
+	<footer>
+                <ul>
+                        <li>Home</li>
+                        <li>Sign In</li>
+                        <li>Register</li>
+                        <li>Help and contact</li>
+                </ul>
+                <div id="footer_note">
+                        <h4>Copyright @ buyit.com</h4>
+                </div>
+        </footer>
+</body>
+</html>

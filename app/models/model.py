@@ -18,8 +18,8 @@ class Customers(Base):
         self.customer_name = customer_name
         self.customer_email = customer_email
         self.customer_pass = customer_pass
-    def __repr__(self):
-        return "{}".format(self.customer_name)
+#    def __repr__(self):
+ #       return "{}".format(self.customer_name)
 
 class Products(Base):
     __tablename__ = 'products'
@@ -42,4 +42,10 @@ class Products(Base):
 
     def __repr__(self):
         return "{}".format(self.product_name)
+
+class Cartitems(Base):
+    __tablename__ = "cartitems"
+    cart_id = Column(Integer, primary_key=True)
+    cart_product_id = Column(Integer, ForeignKey('products.product_id'))
+    cart_customer_id = Column(Integer, ForeignKey('customers.customer_id'))
 # Base.metadata.create_all(engine)

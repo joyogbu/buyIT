@@ -18,6 +18,7 @@
 				<a href="{{ url_for('sign_in') }}">Sign In or Register</a>
                         </div>
 			<div class="header_boxes users">
+				<p>{{ session['username'] }} </p>
 				{% if request.args.get('user_name') %}
 					<span class="users">Hello,</span>
                                         <span class="users">{{ request.args.get('user_name') }}</span>

@@ -4,4 +4,6 @@ from flask import Flask, render_template, url_for, request
 
 app = Flask(__name__)
 
+app.config['SECRET_KEY'] = '15AGcuVuTNogJo'
+
 from app import routes

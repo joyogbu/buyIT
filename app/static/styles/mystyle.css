@@ -146,6 +146,54 @@ input {
 	margin:auto;
 }
 #cart_container {
+	margin:2%;
+}
+#cart_details {
+	border:1px solid red;
+	/*position:relative;
+	height:200px;*/
+}
+.cart_details_div {
+	border:1px solid blue;
+	display:inline-block;
+}
+.cart_item {
+	border:1px solid green;
+	display:inline-block;
+}
+.cart_item_image {
+	width:20%;
+}
+.cart_item_desc {
+	width:50%;
+}
+.cart_item_price {
+	width:20%;
+	text-align:right;
+}
+.cart_items_div {
+	width:65%;
+	margin-right:2%;
+	margin-top:0px;
+	/*position:absolute;
+	top:0;*/
+}
+.cart_summary {
+	width:30%;
+	/*position:absolute;
+	right:0;*/
+}
+#checkout_btn {
+	border: none;
+	background:dodgerblue;
+	padding:2% 4%;
+	border-radius:10px;
+	color:white;
+}
+
+#cart_empty_div {
+	width:80%;
+	margin:auto;
 	text-align:center;
 }
 .cart_page_btns {
@@ -210,6 +258,78 @@ a:link, a:visited {
 #buy_now a {
 	color:dodgerblue !important;
 }
+#shipping_info_form {
+	border:1px solid grey;
+	width:100%;
+	height:100%;
+	overflow:auto;
+	margin:auto;
+	text-align:center;
+	display:none;
+	position:fixed;
+	z-index:1;
+	top:0;
+	background:rgba(0,0,0,0.2);
+}
+#shipping_form {
+	margin:15% auto;
+	padding:3%;
+	width:70%;
+	background:#fefefe;
+}
+#shipping_btn {
+	background:dodgerblue;
+	border:none;
+	color:white;
+	padding:3%;
+}
+.close {
+	font-weight:bold;
+	float:right;
+	font-size:28px;
+}
+#checkout_container {
+	border:1px solid red;
+	padding:3%
+}
+.checkout_div {
+	display:inline-block;
+}
+.checkout_details {
+	width: 60%;
+	border:1px solid none;
+	border-radius:5px;
+}
+.checkout_summary {
+	border:1px solid lightgrey;
+	border-radius:5px;
+	width:30%;
+	padding:1% 3%;
+}
+#paypal_btn {
+	background:dodgerblue;
+	color:white;
+	border:none;
+	padding:3%;
+	margin:auto;
+}
+#payment_type_form {
+	border:1px solid lightgrey;
+	border-radius:5px;
+}
+#disclaimer {
+	font-size:12px;
+}
+.price_column {
+	text-align:right;
+	font-weight:bold;
+}
+#order_total {
+	font-weight:bold;
+	font-size:18px;
+	color: darkred;
+}
+μμμ  n
 footer {
 	background-color: black;
 	color:white;

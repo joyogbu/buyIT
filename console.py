@@ -2,10 +2,10 @@
 
 import sqlalchemy
 from app import app
-from app.models.model import Customers, Products, Cartitems
-from app.models.base import Base, engine, Session
+from app.models.model import Customers, Products, Cartitems, Shippings
+from app.models.base import Base, engine, DBSession
 
-session = Session()
+db_session = DBSession()
 
 def fn():
     output = "console is up"

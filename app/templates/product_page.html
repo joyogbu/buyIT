@@ -10,8 +10,11 @@
 			<div class="product_display text_display_div">
 				<h4>{{ prod_name }}</h4>
 				<span>Price: </span><span>N</span><span>{{ get_prod.product_price }}</span><br><br>
-				<button id="buy_now"><a href="#">BUY NOW</button><br><br>
-				<button id="add_to_cart" onclick="add_to_cart()"><a href="#">ADD TO CART</a></button>
+				<form method="POST" action="{{ url_for('cart_page', id=get_prod.product_id) }}">
+					<label>Qty: </label><input type="number" name="prod_qty" value=1></input><br><br>
+				<!--<button id="buy_now"><a href="#">BUY NOW</a></button><br><br>--!>
+				<!-- <button id="add_to_cart"><a href="{{ url_for('cart_page', id=get_prod.product_id) }}">ADD TO CART</a></button> --!>
+				<button type="submit" id="add_to_cart">ADD TO CART</button>
 			</div>
 		</div>
 		<div class="product_spec">

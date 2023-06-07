@@ -3,10 +3,50 @@
 {% block content %}
 
 	<div id="cart_container">
-		<h3>Your shopping cart is empty</h3>
-		<h4>Have an account? Sign in to see your items</h4>
-		<button class="cart_page_btns _one"><a href="{{ url_for('index') }}">Start shopping</a></button>
-		<button class="cart_page_btns _two"><a href="{{ url_for('sign_in') }}">Sign In</a></button>
+		{% if all_items %}
+			<p>{{ quantity }}</p>
+			<div id="cart_details">
+				{% for items in all_items %}
+				<div class="cart_details_div cart_items_div">
+					<div class="cart_item cart_item_image"><img src="#" /></div>
+					<div class="cart_item cart_item_desc"><h4>{{ items.item.product_name }}</h4></div>
+					<div class="cart_item cart_item_price"><p>price: {{ items.item.product_price }}</p></div>
+					<div class="cart_details_bottom"><span>Qty</span><input type="number" name="update_qty" value="{{ items.cart_quantity }}"></input></div>
+				</div>
+				{% endfor %}
+				<div class="cart_details_div cart_summary">
+					<h4>Cart Summary</h4>
+					<p>Subtotal: {{ sub_total }}</p>
+					<button id="checkout_btn">CHECKOUT</button>
+				</div>
+			</div>
+		{% else %}
+			<div id="cart_empty_div">
+				<h3>Your shopping cart is empty</h3>
+				<h4>Have an account? Sign in to see your items</h4>
+				<button class="cart_page_btns _one"><a href="{{ url_for('index') }}">Start shopping</a></button>
+				<button class="cart_page_btns _two"><a href="{{ url_for('sign_in') }}">Sign In</a></button>
+			</div>
+		{% endif %}
+	</div>
+	<div id="shipping_info_form">
+		<form method="POST" id="shipping_form" action="{{ url_for('check_out') }}">
+			<span class="close">&times;</span>
+			<p>Please provide your shipping details</p>
+			<label>Address</label><br>
+			<input type="text" name="shipping_address"></input><br>
+			<label>City</label><br>
+			<input type="text" name="shipping_city"><br>
+			<label>State</label><br>
+			<input type="text" name="shipping_state"><br>
+			<label>Country</label><br>
+			<input type=text" placeholder="Nigeria" name="shipping_country" value="Nigeria"/><br>
+			<label>Phone</label><br>
+			<input type="text" name="phone"><br>
+			<label>Zip code</label><br>
+			<input type="number" name="zip_code"></input><br><br>
+			<button id="shipping_btn" type="submit">Save</button><br>
+		</form>
 	</div>
 	<br><br>
 {% endblock %}

@@ -15,7 +15,16 @@
                                 <span id="logo2"><b><i>.COM</i></b></span>
                 </div>
                         <div id="signin" class="header_boxes box2">
-				<a href="{{ url_for('sign_in') }}">Sign In or Register</a>
+				<span id="dropdown_btn">My Account</span>
+				<div class="dropdown_link">
+					{% if session['user_id'] %}
+					<a href="{{ url_for('log_out') }}">Sign out</a>
+					<a href="{{ url_for('cart_page') }}">My cart</a>
+					{% else %}
+					<a href="{{ url_for('sign_in') }}">Sign in</a>
+					<a href="{{ url_for('sign_in') }}">Register</a>
+					{% endif %}
+				</div>
                         </div>
 			<div class="header_boxes users">
 				<p>{{ session['username'] }} </p>

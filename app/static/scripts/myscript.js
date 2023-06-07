@@ -10,4 +10,11 @@ $(document).ready(function() {
 		$("#sign_up_form").css('display', 'none');
 		$("#sign_in_toggle").css('display', 'none');
 	});
+
+	$('#checkout_btn').click(function() {
+		$("#shipping_info_form").css('display', 'block');
+	});
+	$('.close').click(function() {
+		$('#shipping_info_form').css('display', 'none');
+	});
 });

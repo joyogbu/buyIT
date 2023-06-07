@@ -1,7 +1,9 @@
+#!/usr/bin/python3
 from app import app
 from flask import render_template, request, redirect, url_for, session
 from .models.base import DBSession
-from .models.model import Products, Customers
+from .models.model import Products, Customers, Cartitems, Shippings
+import math
 
 db_session = DBSession()
 @app.route('/', strict_slashes=False)
@@ -21,7 +23,7 @@ def sign_in():
                 check_user = db_session.query(Customers).filter_by(customer_email=customer_email).first()
                 if check_user:
                     error="email already exists"
-                    return redirect(url_for('sign_in', error=error))
+                return redirect(url_for('sign_in', error=error))
                 user = Customers(customer_name=request.form.get('fullname'), customer_email=request.form.get('mobile_or_email'), customer_pass=request.form.get('password'))
                 db_session.add(user)
                 db_session.commit()
@@ -41,13 +43,55 @@ def sign_in():
                 return redirect(url_for('index', user_name=session['username'], user_id=session['user_id']))
     return render_template('sign_in_register.html', message=message)
 
+@app.route('/sign_out')
+def log_out():
+    if session['user_id']:
+        session.pop('user_id', None)
+        session.pop('username', None)
+        return redirect(url_for('sign_in'))
+    return redirect(url_for('index'))
+
 @app.route('/cart', methods=['GET', 'POST'])
-def cart_page():
-    if request.method == 'POST':
-        #print("not empty")
-        return render_template("cart.html")
+@app.route('/cart/<int:id>', methods=['GET', 'POST'])
+def cart_page(id=None):
+    #cart_item = None
+    quantity = 0
+    sub_total = 0
+    '''check if a product is selected and a customer is logged in '''
+    #if id:
+    if id and 'user_id' in session:
+        #cart_item = ""
+        if request.form.get('prod_qty') is not None:
+            quantity = int(request.form.get('prod_qty'))
+        get_product = db_session.query(Products).filter_by(product_id=id).first()
+        check_product = db_session.query(Cartitems).filter_by(cart_product_id=id, cart_customer_id=session['user_id']).first()
+        if check_product:
+            check_product.cart_quantity = check_product.cart_quantity + quantity
+            db_session.commit()
+        else:
+            cart_item = Cartitems(cart_product_id=id, cart_customer_id = session['user_id'], cart_quantity=quantity)
+            db_session.add(cart_item)
+            db_session.commit()
+        all_items = db_session.query(Cartitems).filter_by(cart_customer_id=session['user_id']).all()
+        #sub_total = all_items.cart_quantity * all_items.item.product_price
+        my_sum=[]
+        for things in all_items:
+            total=things.cart_quantity * things.item.product_price
+            my_sum.append(total)
+            sub_total = sum(my_sum)
+            session['sub_total'] = sub_total
+        return render_template("cart.html", quantity=quantity, all_items=all_items, sub_total=sub_total, my_sum=my_sum)
     else:
-        return render_template("index.html")
+        if 'user_id' in session:
+            #na=request.args.get('name')
+            all_items = db_session.query(Cartitems).filter_by(cart_customer_id=session['user_id']).all()
+            my_sum=[]
+            for things in all_items:
+                total=things.cart_quantity * things.item.product_price
+                my_sum.append(total)
+                sub_total = sum(my_sum)
+            return render_template("cart.html", all_items=all_items, sub_total=sub_total)
+        return render_template("cart.html")
 
 @app.route('/prod/<name>', methods=['GET','POST'])
 def get_product(name):
@@ -55,3 +99,20 @@ def get_product(name):
     get_prod = db_session.query(Products).filter_by(product_name=name).first()
     #return("{}".format(get_prod[product_price]))
     return render_template("product_page.html", prod_name=name, get_prod=get_prod)
+
+@app.route('/buy/checkout', methods=['POST', 'GET'])
+def check_out():
+    if request.method == "POST":
+        shipping_id = session['user_id']
+        shipping_address = request.form.get('shipping_address')
+        shipping_city = request.form.get('shipping_city')
+        shipping_state = request.form.get('shipping_state')
+        shipping_country = request.form.get('shipping_country')
+        shipping_phone = request.form.get('phone')
+        shipping_zip = request.form.get('zip_code')
+        ship_item = Shippings(shipping_customer_id=shipping_id, shipping_address=shipping_address, shipping_city=shipping_city, shipping_state=shipping_state, shipping_country=shipping_country, shipping_phone=shipping_phone, shipping_zip=shipping_zip, shipping_amount=720)
+        db_session.add(ship_item)
+        db_session.commit()
+    shipping_details = db_session.query(Shippings).filter_by(shipping_customer_id=shipping_id).first()
+    return render_template("checkout.html", shipping_details=shipping_details)
+    #return render_template("checkout.html")

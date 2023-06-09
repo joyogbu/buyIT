@@ -51,6 +51,17 @@ def log_out():
         return redirect(url_for('sign_in'))
     return redirect(url_for('index'))
 
+def subTotal():
+    sub_total=0
+    all_items = db_session.query(Cartitems).filter_by(cart_customer_id=session['user_id']).all()
+    #sub_total = all_items.cart_quantity * all_items.item.product_price
+    my_sum=[]
+    for things in all_items:
+        total=things.cart_quantity * things.item.product_price
+        my_sum.append(total)
+        sub_total = sum(my_sum) 
+    return (sub_total)
+
 @app.route('/cart', methods=['GET', 'POST'])
 @app.route('/cart/<int:id>', methods=['GET', 'POST'])
 def cart_page(id=None):
@@ -74,23 +85,11 @@ def cart_page(id=None):
             db_session.commit()
         all_items = db_session.query(Cartitems).filter_by(cart_customer_id=session['user_id']).all()
         #sub_total = all_items.cart_quantity * all_items.item.product_price
-        my_sum=[]
-        for things in all_items:
-            total=things.cart_quantity * things.item.product_price
-            my_sum.append(total)
-            sub_total = sum(my_sum)
-            session['sub_total'] = sub_total
-        return render_template("cart.html", quantity=quantity, all_items=all_items, sub_total=sub_total, my_sum=my_sum)
+        return render_template("cart.html", quantity=quantity, all_items=all_items, sub_total=subTotal())
     else:
         if 'user_id' in session:
-            #na=request.args.get('name')
             all_items = db_session.query(Cartitems).filter_by(cart_customer_id=session['user_id']).all()
-            my_sum=[]
-            for things in all_items:
-                total=things.cart_quantity * things.item.product_price
-                my_sum.append(total)
-                sub_total = sum(my_sum)
-            return render_template("cart.html", all_items=all_items, sub_total=sub_total)
+            return render_template("cart.html", all_items=all_items, sub_total=subTotal())
         return render_template("cart.html")
 
 @app.route('/prod/<name>', methods=['GET','POST'])
@@ -113,6 +112,19 @@ def check_out():
         ship_item = Shippings(shipping_customer_id=shipping_id, shipping_address=shipping_address, shipping_city=shipping_city, shipping_state=shipping_state, shipping_country=shipping_country, shipping_phone=shipping_phone, shipping_zip=shipping_zip, shipping_amount=720)
         db_session.add(ship_item)
         db_session.commit()
+    my_total = subTotal()
     shipping_details = db_session.query(Shippings).filter_by(shipping_customer_id=shipping_id).first()
-    return render_template("checkout.html", shipping_details=shipping_details)
+    return render_template("checkout.html", shipping_details=shipping_details, my_total=my_total)
     #return render_template("checkout.html")
+
+@app.route('/modify_cart/<p_id>', methods=['GET', 'POST'])
+def remove_item(p_id):
+    check_item = db_session.query(Cartitems).filter_by(cart_product_id=p_id, cart_customer_id=session['user_id']).first()
+    db_session.delete(check_item)
+    db_session.commit()
+    #return render_template("cart.html")
+    return redirect(url_for('cart_page'))
+
+@app.route('/buyit')
+def landing_page():
+    return render_template("buyit.html")

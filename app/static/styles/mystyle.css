@@ -1,5 +1,5 @@
 * {
-	border-sizing:border-box;
+	box-sizing:border-box;
 }
 body {
 	margin:0px;
@@ -53,6 +53,23 @@ body {
 	border:1px solid lightgrey;
 	margin-right:none;
 	width:auto;
+}
+#img_div {                                     width:100%;                            height:auto;                   }                                      #img_div img {                                 width:100%;                    }                                      .details_one {                                 position:relative;                     border:2px solid none;                 margin:0px;                            height:auto;                   }
+#text_div {
+        position:absolute;
+        border:1px solid none;
+        top:0;
+        left:0;
+        width:40%;
+        padding:1% 4%;
+        height:100%;                           background:rgba(255,255,255,0.7);                                             color:black;                   }                                      #text_div a {                                  color:white !important;                text-decoration:none;          }
+#shop_now {                                    font-weight:bold;                      color:white;                           background:orange;
+	font-size:4vw;
+        padding:2% 3%;                         border:none;                           width:70%;                     }
+#flex_text {
+	color:navy;
+	font-size:3vw;
+	font-weight:bold;
 }
 #container {
 	height: auto;
@@ -149,17 +166,17 @@ input {
 	margin:2%;
 }
 #cart_details {
-	border:1px solid red;
+	border:1px solid none;
 	/*position:relative;
 	height:200px;*/
 }
-.cart_details_div {
-	border:1px solid blue;
-	display:inline-block;
+.cart_details_box {
+	border:1px solid none;
+	float:left;
 }
 .cart_item {
-	border:1px solid green;
-	display:inline-block;
+	border:1px solid none;
+	float:left;
 }
 .cart_item_image {
 	width:20%;
@@ -172,23 +189,57 @@ input {
 	text-align:right;
 }
 .cart_items_div {
-	width:65%;
-	margin-right:2%;
+/*	width:60%;
+	margin-right:2%;*/
 	margin-top:0px;
 	/*position:absolute;
 	top:0;*/
 }
+.details_box {
+	width:62%;
+	border-right:1px solid lightgrey;
+	padding:1%;
+}
+hr {
+	border:1px solid lightgrey;
+	margin:2% 3%;
+}
 .cart_summary {
 	width:30%;
-	/*position:absolute;
-	right:0;*/
+	/*position:absolute;*/
+	float:right;
+	border:1px solid lightgrey;
+	padding:0px 3px;	
+	border-radius:5px;
+}.
+.bottom_bttns {
+	display:inline-block;
+}
+.bottom_bttns input {
+	width:25px;
+	height:25px;
+	padding:0px;
+}
+#delete_item {
+	float:right;
+	border:none;
+	color:red;
+	background:none;
+	top:5;
+}
+#delete_item a {
+	color:red;
+	text-decoration:underline;
 }
 #checkout_btn {
 	border: none;
 	background:dodgerblue;
 	padding:2% 4%;
-	border-radius:10px;
+	border-radius:5px;
 	color:white;
+	font-weight:bold;
+	width:90%;
+	margin:auto;
 }
 
 #cart_empty_div {
@@ -258,6 +309,9 @@ a:link, a:visited {
 #buy_now a {
 	color:dodgerblue !important;
 }
+.bottom_bttns {
+	display:inline-block;
+}
 #shipping_info_form {
 	border:1px solid grey;
 	width:100%;
@@ -269,13 +323,17 @@ a:link, a:visited {
 	position:fixed;
 	z-index:1;
 	top:0;
-	background:rgba(0,0,0,0.2);
+	background:rgba(0,0,0,0.4);
 }
 #shipping_form {
 	margin:15% auto;
 	padding:3%;
-	width:70%;
-	background:#fefefe;
+	width:60%;
+	background:lightyellow;
+}
+#top {
+	color:darkred;
+	padding:2%;
 }
 #shipping_btn {
 	background:dodgerblue;
@@ -289,16 +347,17 @@ a:link, a:visited {
 	font-size:28px;
 }
 #checkout_container {
-	border:1px solid red;
-	padding:3%
+	border:1px solid none;
+	padding:3%;
 }
 .checkout_div {
-	display:inline-block;
+	float:left;
 }
 .checkout_details {
 	width: 60%;
 	border:1px solid none;
 	border-radius:5px;
+	margin-right:2%;
 }
 .checkout_summary {
 	border:1px solid lightgrey;
@@ -316,9 +375,16 @@ a:link, a:visited {
 #payment_type_form {
 	border:1px solid lightgrey;
 	border-radius:5px;
+	padding:1% 3%;
+}
+#payment_type_form input {
+	width:auto;
 }
 #disclaimer {
 	font-size:12px;
+}
+#disclaimer a:link {
+	color:dodgerblue;
 }
 .price_column {
 	text-align:right;
@@ -329,7 +395,11 @@ a:link, a:visited {
 	font-size:18px;
 	color: darkred;
 }
-μμμ  n
+#checkout_address, #checkout_review {
+	border:1px solid lightgrey;
+	border-radius:5px;
+	padding:1% 3%;
+}
 footer {
 	background-color: black;
 	color:white;

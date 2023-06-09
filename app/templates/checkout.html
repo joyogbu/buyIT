@@ -4,23 +4,33 @@
 	<h4>Checkout</h4>
 	<div id="checkout_container">
 		<div class="checkout_div checkout_details">
-			<h4>1. Shipping address: {{ shipping_details.shipping_address }}</h4>
-			<h4>2. Choose a payment method</h4>
+			<div id="checkout_address">
+				<h4>Shipping address</h4>
+				<span>{{ shipping_details.shipper.customer_name }}
+				<p>{{ shipping_details.shipping_address }}</p>
+				<p><span>{{ shipping_details.shipping_state }}</span><span> {{ shipping_details.shipping_country }}</span></p>
+			</div>
+			<br>
 			<form id="payment_type_form">
+				<h4>Choose a payment method</h4>
 				<input type="radio" name="payment_method" value="credit_card"></input><label>Credit or debit card</label><br>
 				<input type="radio" name="payment_method" value="paypal"></input><label>PayPal</label><br>
 			</form>
-			<h4>2. Review item and shipping</h4>
+			<br>
+			<div id="checkout_review">
+				<h4>Review item and shipping</h4>
+			</div>
 		</div>
 		<div class="checkout_div checkout_summary">
 			<h3>Order details</h3>
 			<table>
-				<tr><td>Items:</td><td class="price_column">{{ session['sub_total'] }}</td></tr>
+				<tr><td>Items:</td><td class="price_column">N{{ my_total }}</td></tr>
 				<tr><td>Shipping:</td><td class="price_column">N{{ shipping_details.shipping_amount }}</td></tr>
-				<tr><td id="order_total">Order total</td><td class="price_column">{{ session['sub_total'] | int + shipping_details.shipping_amount }}</td></tr>
+				<tr><td id="order_total">Order total</td><td class="price_column">N{{ my_total | int + shipping_details.shipping_amount }}</td></tr>
 			</table>
 			<p id="disclaimer">By placing your orders, you agree to our users agreement and privacy policy</p>
 			<button id="paypal_btn"><a href="#">Pay with PayPal</a></button>
 		</div>
+		<div style="clear:both;"></div>
 	</div>
 {% endblock %}

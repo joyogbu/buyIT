@@ -1,18 +1,31 @@
 #!/usr/bin/python3
 
+import cmd
 import sqlalchemy
 from app import app
 from app.models.model import Customers, Products, Cartitems, Shippings
 from app.models.base import Base, engine, DBSession
-
 db_session = DBSession()
 
-def fn():
-    output = "console is up"
-    print (output)
+class Buyit(cmd.Cmd):
+    prompt = '(buy) '
+    __classes = ['Products', 'Customers']
 
-def create_table():
-    Base.metadata.create_all(engine, checkfirst=True)
+    def do_create_table(self):
+        Base.metadata.create_all(engine, checkfirst=True)
+
+    def do_add(self, line):
+        Base.metadata.create_all(engine)
+        new_product = line
+        db_session.add(new_product)
+        db_session.commit()
+        db_session.close()
+
+    def do_quit(self, line):
+        return True
+
+    def emptyline(selg):
+        pass
 
 if __name__ == '__main__':
-    create_table()
+    Buyit().cmdloop()

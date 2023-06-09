@@ -4,21 +4,24 @@
 
 	<div id="cart_container">
 		{% if all_items %}
-			<p>{{ quantity }}</p>
 			<div id="cart_details">
+				<div class="cart_details_box details_box">
 				{% for items in all_items %}
 				<div class="cart_details_div cart_items_div">
 					<div class="cart_item cart_item_image"><img src="#" /></div>
-					<div class="cart_item cart_item_desc"><h4>{{ items.item.product_name }}</h4></div>
-					<div class="cart_item cart_item_price"><p>price: {{ items.item.product_price }}</p></div>
-					<div class="cart_details_bottom"><span>Qty</span><input type="number" name="update_qty" value="{{ items.cart_quantity }}"></input></div>
+					<div class="cart_item cart_item_desc"><p>{{ items.item.product_name }}</p></div>
+					<div class="cart_item cart_item_price"><p>price: N{{ items.item.product_price }}</p></div>
+					<div style="clear:both;"></div>
+					<div class="cart_details_bottom"><div class="bottom_bttns"><span>Qty: </span><input type="text" name="update_qty" value="{{ items.cart_quantity }}"></input></div><button class="bottom_bttns" id="delete_item"><a href="{{ url_for('remove_item', p_id=items.cart_product_id) }}">Remove</a></button></div><br><hr>
 				</div>
 				{% endfor %}
-				<div class="cart_details_div cart_summary">
+				</div>
+				<div class="cart_details_box cart_summary">
 					<h4>Cart Summary</h4>
-					<p>Subtotal: {{ sub_total }}</p>
+					<p>Subtotal: N{{ sub_total }}</p>
 					<button id="checkout_btn">CHECKOUT</button>
 				</div>
+				<div style="clear:both;"></div>
 			</div>
 		{% else %}
 			<div id="cart_empty_div">
@@ -32,7 +35,7 @@
 	<div id="shipping_info_form">
 		<form method="POST" id="shipping_form" action="{{ url_for('check_out') }}">
 			<span class="close">&times;</span>
-			<p>Please provide your shipping details</p>
+			<div id="top">Please provide your shipping details</div>
 			<label>Address</label><br>
 			<input type="text" name="shipping_address"></input><br>
 			<label>City</label><br>

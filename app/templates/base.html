@@ -6,6 +6,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 	<script src="../static/scripts/myscript.js"></script>
         <link rel="stylesheet" type="text/css" href="../static/styles/mystyle.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 </head>
 <body>
         <header>
@@ -14,26 +15,26 @@
                                 <span id="logo1">buyIT</span>
                                 <span id="logo2"><b><i>.COM</i></b></span>
                 </div>
-                        <div id="signin" class="header_boxes box2">
-				<span id="dropdown_btn">My Account</span>
+			<div class="header_boxes users">
+                                {% if session['first_name'] %}
+				<p>Welcome {{ session['first_name'] }}</p>
+				{% else %}
+				<p>Hello</p>
+				{% endif %}
+                        </div>
+                        <div id="signin" class="header_boxes box1">
+				<button id="dropdown_btn"><i class="fa fa-user"></i> Account<i class="fa fa-caret-down"></i></button><br>
 				<div class="dropdown_link">
 					{% if session['user_id'] %}
 					<a href="{{ url_for('log_out') }}">Sign out</a>
 					<a href="{{ url_for('cart_page') }}">My cart</a>
 					{% else %}
 					<a href="{{ url_for('sign_in') }}">Sign in</a>
-					<a href="{{ url_for('sign_in') }}">Register</a>
+					<a href="{{ url_for('cart_page') }}">My cart</a>
 					{% endif %}
 				</div>
                         </div>
-			<div class="header_boxes users">
-				<p>{{ session['username'] }} </p>
-				{% if request.args.get('user_name') %}
-					<span class="users">Hello,</span>
-                                        <span class="users">{{ request.args.get('user_name') }}</span>
-                                {% endif %}
-			</div>
-			<div id ="cart" class="header_boxes box2"><a href="{{ url_for('cart_page') }}">Cart</a></div>
+			<div id ="cart" class="header_boxes box2"><a href="{{ url_for('cart_page') }}" class="fa fa-shopping-cart"></a><a href="{{ url_for('cart_page') }}"> Cart</a></a></div>
                         <br><br>
                 </div>
                 <div class="menu_bar" style="background-color:none;">

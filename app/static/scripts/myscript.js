@@ -17,4 +17,32 @@ $(document).ready(function() {
 	$('.close').click(function() {
 		$('#shipping_info_form').css('display', 'none');
 	});
+
+	/*$('#shipping_info_form').on('submit', function(event) {
+		$.ajax({
+			url : '/buy/checkout',
+			data : {
+				shipAdd : $('#shipAdd').val(),
+				shipCity : $('#shipCity').val(),
+				shipState : $('#shipState').val(),
+				shipCountry : $('#shipCountry').val(),
+				shipPhone : $('#shipPhone').val(),
+				shipZip : $('#shipZip').val()
+			},
+			type : 'POST',
+			success : function(response) {
+				window.location.href = '/buy/checkout'
+			},
+			error : function() {
+				$('#error_box').innerHTML = 'All fields are reuired'
+			},
+		})
+		event.preventDefault()
+		
+	});*/
+
+	$('#dropdown_btn').click(function() {
+		/*$('.dropdown_link').css('display', 'inline-block')*/
+		$('.dropdown_link').slideToggle()
+	});
 });

@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-	<h3>Welcome!</h3>
-	<p>Sign in or Register</p>
+	<div id="welcome_div"><h3>Welcome!</h3>
+		<p>Sign in or Register</p></div>
 	<div class="form_container">
 		{% if request.args.get('error') %}
 			<p id="form_error">{{ request.args.get('error') }}</p>

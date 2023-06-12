@@ -5,10 +5,13 @@
 	<div id="cart_container">
 		{% if all_items %}
 			<div id="cart_details">
+				{% if request.args.get('error') %}
+				<p id="err_message" style="color:red;">{{ request.args.get('error') }}</p>
+				{% endif %}
 				<div class="cart_details_box details_box">
 				{% for items in all_items %}
 				<div class="cart_details_div cart_items_div">
-					<div class="cart_item cart_item_image"><img src="#" /></div>
+					<div class="cart_item cart_item_image"><img class="cart_image" src="static/images/products/{{ items.item.product_image }}" /></div>
 					<div class="cart_item cart_item_desc"><p>{{ items.item.product_name }}</p></div>
 					<div class="cart_item cart_item_price"><p>price: N{{ items.item.product_price }}</p></div>
 					<div style="clear:both;"></div>
@@ -37,17 +40,18 @@
 			<span class="close">&times;</span>
 			<div id="top">Please provide your shipping details</div>
 			<label>Address</label><br>
-			<input type="text" name="shipping_address"></input><br>
+			<input type="text" name="shipping_address" id="shipAdd"></input><br>
 			<label>City</label><br>
-			<input type="text" name="shipping_city"><br>
+			<input type="text" name="shipping_city" id="shipCity"><br>
 			<label>State</label><br>
-			<input type="text" name="shipping_state"><br>
+			<input type="text" name="shipping_state" id="shipState"><br>
 			<label>Country</label><br>
-			<input type=text" placeholder="Nigeria" name="shipping_country" value="Nigeria"/><br>
+			<input type=text" placeholder="Nigeria" name="shipping_country" id="shipCountry" value="Nigeria"/><br>
 			<label>Phone</label><br>
-			<input type="text" name="phone"><br>
+			<input type="text" name="phone" id="shipPhone"><br>
 			<label>Zip code</label><br>
-			<input type="number" name="zip_code"></input><br><br>
+			<input type="number" name="zip_code" id="shipZip"></input><br><br>
+			<span id="error_box">{{ error }}</span>
 			<button id="shipping_btn" type="submit">Save</button><br>
 		</form>
 	</div>

@@ -1,6 +1,7 @@
 #!/usr/bin/python3
+import bcrypt
 from app import app
-from flask import render_template, request, redirect, url_for, session
+from flask import render_template, request, redirect, url_for, session, jsonify
 from .models.base import DBSession
 from .models.model import Products, Customers, Cartitems, Shippings
 import math
@@ -23,24 +24,38 @@ def sign_in():
                 check_user = db_session.query(Customers).filter_by(customer_email=customer_email).first()
                 if check_user:
                     error="email already exists"
-                return redirect(url_for('sign_in', error=error))
-                user = Customers(customer_name=request.form.get('fullname'), customer_email=request.form.get('mobile_or_email'), customer_pass=request.form.get('password'))
+                    return redirect(url_for('sign_in', error=error))
+                customer_password = request.form.get('password')
+                customer_bytes = customer_password.encode('utf-8')
+                salt = bcrypt.gensalt()
+                hashed_password = bcrypt.hashpw(customer_bytes, salt)
+                user = Customers(customer_name=request.form.get('fullname'), customer_email=request.form.get('mobile_or_email'), customer_pass = hashed_password)
                 db_session.add(user)
                 db_session.commit()
                 message = "Your account has been created successfully"
             else:
                 customer_email=request.form.get('username')
-                customer_pass=request.form.get('password')
+                customer_pass=request.form.get('pass')
+                if customer_email == "" or customer_pass == "":
+                    error="Sorry, invalid credentials"
+                    return redirect(url_for('sign_in', error=error))
+                user_bytes  = customer_pass.encode('utf-8')
                 user=db_session.query(Customers).filter_by(customer_email=customer_email).first()
                 if not user:
-                    error="Invalid login details"
+                    error="Sorry, email not recognized"
                     return redirect(url_for('sign_in', error=error))
-                session['user_id'] = user.customer_id
-                session['username'] = user.customer_name
-                #user_name=str(user).split(' ')
-                user_name = user.customer_name.split(' ')
-                first_name=user_name[0]
-                return redirect(url_for('index', user_name=session['username'], user_id=session['user_id']))
+                hashed_pass = user.customer_pass.encode('utf-8')
+                if not bcrypt.checkpw(user_bytes, hashed_pass):
+                    error="Incorrect password"
+                    return redirect(url_for('sign_in', error=error))
+                else:
+                    session['user_id'] = user.customer_id
+                    session['username'] = user.customer_name
+                    #user_name=str(user).split(' ')
+                    user_name = user.customer_name.split(' ')
+                    first_name = user_name[0]
+                    session['first_name'] = first_name
+                    return redirect(url_for('index', user_name=session['username'], user_id=session['user_id']))
     return render_template('sign_in_register.html', message=message)
 
 @app.route('/sign_out')
@@ -48,6 +63,7 @@ def log_out():
     if session['user_id']:
         session.pop('user_id', None)
         session.pop('username', None)
+        session.pop('first_name', None)
         return redirect(url_for('sign_in'))
     return redirect(url_for('index'))
 
@@ -109,13 +125,25 @@ def check_out():
         shipping_country = request.form.get('shipping_country')
         shipping_phone = request.form.get('phone')
         shipping_zip = request.form.get('zip_code')
+        error=""
+        '''shipping_address = request.form['shipAdd']
+        shipping_city = request.form['shipCity']
+        shipping_state = request.form['shipState']
+        shipping_country = request.form['shipCountry']
+        shipping_phone = request.form['shipPhone']
+        shipping_zip = request.form['shipZip']'''
+        if shipping_address == "" or shipping_city == "" or shipping_state == "" or shipping_country == "" or shipping_phone == "" or shipping_zip == "":
+            error = "Sorry, all fields are required"
+            return redirect(url_for('cart_page', error=error))
         ship_item = Shippings(shipping_customer_id=shipping_id, shipping_address=shipping_address, shipping_city=shipping_city, shipping_state=shipping_state, shipping_country=shipping_country, shipping_phone=shipping_phone, shipping_zip=shipping_zip, shipping_amount=720)
         db_session.add(ship_item)
         db_session.commit()
-    my_total = subTotal()
-    shipping_details = db_session.query(Shippings).filter_by(shipping_customer_id=shipping_id).first()
-    return render_template("checkout.html", shipping_details=shipping_details, my_total=my_total)
-    #return render_template("checkout.html")
+        my_total = subTotal()
+        shipping_details = db_session.query(Shippings).filter_by(shipping_customer_id=shipping_id).first()
+        #return jsonify({'my_total' : my_total})
+        #return shipping_details
+        return render_template("checkout.html", shipping_details=shipping_details, my_total=my_total)
+    return render_template("checkout.html")
 
 @app.route('/modify_cart/<p_id>', methods=['GET', 'POST'])
 def remove_item(p_id):
@@ -124,6 +152,10 @@ def remove_item(p_id):
     db_session.commit()
     #return render_template("cart.html")
     return redirect(url_for('cart_page'))
+
+@app.errorhandler(404)
+def not_found(e):
+    return render_template("404.html"), 404
 
 @app.route('/buyit')
 def landing_page():

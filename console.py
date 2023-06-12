@@ -11,8 +11,9 @@ class Buyit(cmd.Cmd):
     prompt = '(buy) '
     __classes = ['Products', 'Customers']
 
-    def do_create_table(self):
-        Base.metadata.create_all(engine, checkfirst=True)
+    def do_create(self, line):
+        Base.metadata.create_all(engine, tables=[Base.metadata.tables[line]], checkfirst=True)
+        print (line)
 
     def do_add(self, line):
         Base.metadata.create_all(engine)

@@ -4,14 +4,16 @@
 	<div class="details_one">                                                             <div id="img_div"><img src="../static/images/images_38.jpeg"></img></div>                                            <div id="text_div">
 			<p id="flex_text">Everything you need delivered right to your door</p>
 			<p style="font-size:3vw;">Enjoy a great user experience</p>
-			<button id="shop_now"><a href="/cart">Shop Now!</a></button>                                                     </div>                         </div>
+			<button id="shop_now"><a href="/cart">Shop Now!</a></button>
+		</div>
+	</div>
+	<div class="top_heading">Explore Daily Deals</div>
 	<div id="container">
 		<section id="filters">
 			<div class="product_display">
-				<h2>Explore Products Categories</h2>
 				{% for prod in prods %}
 				<div class="product_div">
-					<div class="product_image"><img src="static/images/products/{{ prod.product_image }}" /></div>
+					<div class="product_image"><img class="product_img_box" src="static/images/products/{{ prod.product_image }}" /></div>
 					<div class="product_div_text"><span class="product_text"><a href="{{ url_for('get_product', name=prod.product_name) }}">{{ prod.product_name }}</a></span><br>
 						<span class="currency">N</span><span class="product_price">{{ prod.product_price }}</span></div>
 				</div>
@@ -20,8 +22,10 @@
 		</section>
 		<section class ="filters">
 			<div class="daily_deals">
-				<h2>Daily deals</h2>
 			</div>
 		</section>
 	</div>
+	<div class="top_heading">View Categories</div>
+	<p id="closing_text1">buyIT</p>
+	<p id="closing_text2">Shop anytime, anyday, and anywhere</p>
 {% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<div style="padding:5%; text-align:center">
+		<h1>404 page not found	</h1>
+		<p>Sorry, the page you are looking for does not exit</p>
+		<button class="cart_page_btns _one"><a href="/">GO TO HOME</a></button>
+		<button class="cart_page_btns _two"><a href="{{url_for('sign_in') }}">SIGN IN</a></button>
+	</div>
+{% endblock %}
+
+

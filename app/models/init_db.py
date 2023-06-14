@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+'''using script to add products'''
 
 import sqlalchemy
 from model import Customers, Products

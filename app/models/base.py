@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+'''declarative base'''
 import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base

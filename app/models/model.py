@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+'''module for defining classes for database'''
 
 from sqlalchemy import DateTime, ForeignKey, String, Integer, Text, Numeric, Column
 from sqlalchemy.orm import relationship, backref
@@ -6,6 +7,7 @@ from datetime import datetime
 from .base import Base, engine
 
 class Customers(Base):
+    '''defining the customers table'''
     __tablename__ = 'customers'
 
     customer_id = Column(Integer, primary_key=True)
@@ -18,6 +20,7 @@ class Customers(Base):
     ships = relationship('Shippings', backref='shipper', lazy='dynamic', cascade='all,delete-orphan')
 
     def __init__(self, customer_name, customer_email, customer_pass):
+        '''initializing the customers table'''
         self.customer_name = customer_name
         self.customer_email = customer_email
         self.customer_pass = customer_pass
@@ -25,6 +28,7 @@ class Customers(Base):
  #       return "{}".format(self.customer_name)
 
 class Products(Base):
+    '''defining the class for products tale'''
     __tablename__ = 'products'
 
     product_id = Column(Integer, primary_key=True)
@@ -40,6 +44,7 @@ class Products(Base):
     cartss = relationship('Cartitems', backref='item', lazy='dynamic', cascade='all, delete-orphan')
 
     def __init__(self, product_name, product_desc, product_cat, product_price, product_image):
+        '''initializing the products table'''
         self.product_name = product_name
         self.product_desc = product_desc
         self.product_cat = product_cat
@@ -50,6 +55,7 @@ class Products(Base):
         return "{}".format(self.product_name)
 
 class Cartitems(Base):
+    '''defining the cartitems table'''
     __tablename__ = "cartitems"
     cart_id = Column(Integer, primary_key=True)
     cart_product_id = Column(Integer, ForeignKey('products.product_id'))
@@ -63,6 +69,7 @@ class Cartitems(Base):
       #  self.cart_customer_id = cart_customer_id
 
 class Shippings(Base):
+    '''defining the shippings table'''
     __tablename__ = "shipping"
     details_id = Column(Integer, primary_key=True)
     shipping_customer_id = Column(Integer, ForeignKey('customers.customer_id'))

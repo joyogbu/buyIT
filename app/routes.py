@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+'''module for defining the flask routes'''
 import bcrypt
 from app import app
 from flask import render_template, request, redirect, url_for, session, jsonify
@@ -9,22 +10,29 @@ import math
 db_session = DBSession()
 @app.route('/', strict_slashes=False)
 def index():
+    '''defining the index page'''
     #prods = Products.query.all()
     prods = db_session.query(Products).all()
     return render_template('index.html', prods=prods)
 
 @app.route('/sign_in_register', methods=['GET', 'POST'])
 def sign_in():
+    '''defining login and register functionality'''
     message = ""
     #user_name = ""
+    '''check if a form is rwceived'''
     if request.form:
+        # check id form inpirs were submitted
         if request.method == "POST":
+            # check if it is a signup
             if request.args.get('name') == 'signup':
                 customer_email = request.form.get('mobile_or_email')
+                # check if a customer already exiats with that email
                 check_user = db_session.query(Customers).filter_by(customer_email=customer_email).first()
                 if check_user:
                     error="email already exists"
                     return redirect(url_for('sign_in', error=error))
+                # continue if customer does not already exist
                 customer_password = request.form.get('password')
                 customer_bytes = customer_password.encode('utf-8')
                 salt = bcrypt.gensalt()
@@ -33,6 +41,7 @@ def sign_in():
                 db_session.add(user)
                 db_session.commit()
                 message = "Your account has been created successfully"
+                # if it was a sign in form that was submitted
             else:
                 customer_email=request.form.get('username')
                 customer_pass=request.form.get('pass')
@@ -60,6 +69,7 @@ def sign_in():
 
 @app.route('/sign_out')
 def log_out():
+    '''define a log out'''
     if session['user_id']:
         session.pop('user_id', None)
         session.pop('username', None)
@@ -68,6 +78,7 @@ def log_out():
     return redirect(url_for('index'))
 
 def subTotal():
+    '''get total from cartitems table'''
     sub_total=0
     all_items = db_session.query(Cartitems).filter_by(cart_customer_id=session['user_id']).all()
     #sub_total = all_items.cart_quantity * all_items.item.product_price
@@ -81,6 +92,7 @@ def subTotal():
 @app.route('/cart', methods=['GET', 'POST'])
 @app.route('/cart/<int:id>', methods=['GET', 'POST'])
 def cart_page(id=None):
+    '''render the cart page'''
     #cart_item = None
     quantity = 0
     sub_total = 0

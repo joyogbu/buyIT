@@ -147,6 +147,10 @@ def check_out():
         if shipping_address == "" or shipping_city == "" or shipping_state == "" or shipping_country == "" or shipping_phone == "" or shipping_zip == "":
             error = "Sorry, all fields are required"
             return redirect(url_for('cart_page', error=error))
+        '''if len(shipping_phone) is not 11:
+            error = "Phone number must be 11 digits"
+            return redirect(url_for('ca
+rt_page', error=error))'''
         ship_item = Shippings(shipping_customer_id=shipping_id, shipping_address=shipping_address, shipping_city=shipping_city, shipping_state=shipping_state, shipping_country=shipping_country, shipping_phone=shipping_phone, shipping_zip=shipping_zip, shipping_amount=720)
         db_session.add(ship_item)
         db_session.commit()
@@ -168,6 +172,12 @@ def remove_item(p_id):
 @app.errorhandler(404)
 def not_found(e):
     return render_template("404.html"), 404
+
+@app.teardown_request
+def teardownRequest(exception):
+    if exception:
+        db_session.rollback()
+    db_session.close()
 
 @app.route('/buyit')
 def landing_page():

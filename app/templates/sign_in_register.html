@@ -10,7 +10,7 @@
 		<form id="sign_in_form" method="POST" action="{{ url_for('sign_in', name='signin') }}">
 			<p>Already have an account?</p>
 			<br>
-			<input type="text" placeholder="Enter username..." name="username" ></input><br><br>
+			<input type="text" placeholder="Enter email..." name="username" ></input><br><br>
 			<input type="password" placeholder="Enter password..." name="pass" ></input><br><br>
 			<button type="submit" class="form_submit_btn">Send</button>
 			<br><p id="feedback_msg"><i>{{ message }}</i></p>

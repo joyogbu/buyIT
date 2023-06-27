@@ -145,7 +145,8 @@ body {
 }
 .product_img_box {
 	width:100%;
-	object-fit:fill;
+	height:100%;
+	object-fit:contain;
 }
 .product_div_text {
 	height:38%;
@@ -512,13 +513,18 @@ footer ul {
 
 @media only screen and (min-width: 600px) {
 	.product_div {
-		width:210px;
-		height:300px;
+		width:25%;
+		height:310px;
 	}
 	.product_image {
 		height:67%;
+		border:1px solid none;
 	}
 	.product_div_text {
 		height:33%;
+		border:1px solid none;
 	}
+	/*.cart_product_display {
+		float:left;
+	}*/
 }

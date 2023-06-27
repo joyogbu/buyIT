@@ -181,4 +181,5 @@ def teardownRequest(exception):
 
 @app.route('/buyit')
 def landing_page():
+    '''define landing page'''
     return render_template("buyit.html")
